@@ -315,11 +315,16 @@ public class Checkout extends javax.swing.JFrame {
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
         if (totalPesan > 0) {
-            ProsesPesan prosesPesan = new ProsesPesan();
-            prosesPesan.setDaftarPilih(daftarPilih);
-            prosesPesan.setListMenuSelected(listMenuSelected);
-            prosesPesan.setTotalPesan(totalPesan);
-            prosesPesan.setVisible(true);
+//            ProsesPesan prosesPesan = new ProsesPesan();
+//            prosesPesan.setDaftarPilih(daftarPilih);
+//            prosesPesan.setListMenuSelected(listMenuSelected);
+//            prosesPesan.setTotalPesan(totalPesan);
+//            prosesPesan.setVisible(true);
+            Pembayaran pembayaran = new Pembayaran();
+            pembayaran.setDaftarPilih(daftarPilih);
+            pembayaran.setListMenuSelected(listMenuSelected);
+            pembayaran.setTotalPesan(totalPesan);
+            pembayaran.setVisible(true);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Harga total harus diatas Rp 0", "Drive Thru", JOptionPane.ERROR_MESSAGE);

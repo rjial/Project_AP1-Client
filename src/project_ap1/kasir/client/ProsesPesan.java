@@ -24,6 +24,7 @@ public class ProsesPesan extends javax.swing.JFrame {
     public List<Menu> listMenuSelected;
     private Menu mnuSel;
     private int totalPesan;
+    private int idPembayaran;
     
 
     public void setDaftarPilih(HashMap<String, Menu> daftarPilih) {
@@ -35,6 +36,9 @@ public class ProsesPesan extends javax.swing.JFrame {
     }
     public void setTotalPesan(int totalPesan) {
         this.totalPesan = totalPesan;
+    }
+    public void setIdPembayaran(int idPembayaran) {
+        this.idPembayaran = idPembayaran;
     }
     /**
      * Creates new form ProsesPesan
@@ -122,7 +126,7 @@ public class ProsesPesan extends javax.swing.JFrame {
                 for (Menu menu : listMenuSelected) {
                     PreparedStatement stmtTransaksi = con.prepareStatement("INSERT INTO transaksi (ID_TRANSAKSI, ID_PEMBAYARAN, LD_KASIR, ID_MENU, NO_ANTRIAN, JUMLAH_PESANAN) VALUES(?,?,?,?,?,?)");
                     stmtTransaksi.setInt(1, rand.nextInt(10000000));
-                    stmtTransaksi.setInt(2, 121001);
+                    stmtTransaksi.setInt(2, idPembayaran);
                     stmtTransaksi.setString(3, "KSR001");
                     stmtTransaksi.setString(4, menu.getIdMenu());
                     stmtTransaksi.setInt(5, angkaRand);
