@@ -16,8 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -29,6 +31,7 @@ public class Pembayaran extends javax.swing.JFrame {
     public List<Menu> listMenuSelected;
     private Menu mnuSel;
     private int totalPesan;
+    private HashMap<String, Integer> mapBayar = new HashMap<>();
 
     public void setDaftarPilih(HashMap<String, Menu> daftarPilih) {
         this.daftarPilih = daftarPilih;
@@ -60,7 +63,8 @@ public class Pembayaran extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -74,7 +78,12 @@ public class Pembayaran extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project_ap1/kasir/client/PEMBAYARAN.png"))); // NOI18N
 
-        jPanel1.setLayout(new java.awt.GridLayout(0, 2));
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,12 +92,12 @@ public class Pembayaran extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(138, 138, 138)
                         .addComponent(jLabel2)
-                        .addGap(0, 151, Short.MAX_VALUE)))
+                        .addGap(0, 157, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -98,8 +107,8 @@ public class Pembayaran extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -110,17 +119,36 @@ public class Pembayaran extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
         PreparedStatement stmtBayar;
+        DefaultListModel modelList = new DefaultListModel();
+        mapBayar.clear();
         try {
             stmtBayar = con.prepareStatement("select * from pembayaran");
             ResultSet rslt = stmtBayar.executeQuery();
             while(rslt.next()) {
-                jPanel1.add(new PembayaranButton(rslt.getInt("ID_PEMBAYARAN"), rslt.getString("NAMA"), this));
+//                jPanel1.add(new PembayaranButton(rslt.getInt("ID_PEMBAYARAN"), rslt.getString("NAMA"), this));
+                modelList.addElement(rslt.getString("NAMA"));
+                mapBayar.put(rslt.getString("NAMA"), rslt.getInt("ID_PEMBAYARAN"));
             }
+            jList1.setModel(modelList);
         } catch (SQLException ex) {
             Logger.getLogger(Pembayaran.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_formComponentShown
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            
+            ProsesPesan prosesPesan = new ProsesPesan();
+            prosesPesan.setDaftarPilih(daftarPilih);
+            prosesPesan.setListMenuSelected(listMenuSelected);
+            prosesPesan.setTotalPesan(totalPesan);
+            prosesPesan.setIdPembayaran(mapBayar.get(jList1.getSelectedValue().toString()));
+            prosesPesan.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jList1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -186,6 +214,7 @@ public class Pembayaran extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
