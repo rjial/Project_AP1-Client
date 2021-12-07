@@ -124,13 +124,13 @@ public class ProsesPesan extends javax.swing.JFrame {
             stmtPelanggan.setInt(2, angkaRand);
             if (stmtPelanggan.executeUpdate() > 0) {
                 for (Menu menu : listMenuSelected) {
-                    PreparedStatement stmtTransaksi = con.prepareStatement("INSERT INTO transaksi (ID_TRANSAKSI, ID_PEMBAYARAN, LD_KASIR, ID_MENU, NO_ANTRIAN, JUMLAH_PESANAN) VALUES(?,?,?,?,?,?)");
+                    PreparedStatement stmtTransaksi = con.prepareStatement("INSERT INTO transaksi (ID_TRANSAKSI, ID_PEMBAYARAN,  ID_MENU, NO_ANTRIAN, JUMLAH_PESANAN) VALUES(?,?,?,?,?)");
                     stmtTransaksi.setInt(1, rand.nextInt(10000000));
                     stmtTransaksi.setInt(2, idPembayaran);
-                    stmtTransaksi.setString(3, "KSR001");
-                    stmtTransaksi.setString(4, menu.getIdMenu());
-                    stmtTransaksi.setInt(5, angkaRand);
-                    stmtTransaksi.setInt(6, menu.getJmlhPesan());
+//                    stmtTransaksi.setString(3, "KSR001");
+                    stmtTransaksi.setString(3, menu.getIdMenu());
+                    stmtTransaksi.setInt(4, angkaRand);
+                    stmtTransaksi.setInt(5, menu.getJmlhPesan());
                     stmtTransaksi.executeUpdate();
                 }
 //                System.out.println("adasdasdasd");
