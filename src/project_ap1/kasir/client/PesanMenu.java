@@ -160,7 +160,15 @@ public class PesanMenu extends javax.swing.JFrame {
             new String [] {
                 "ID Menu", "Nama Makanan", "Stok", "Harga"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblMenuMakanan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMenuMakananMouseClicked(evt);
